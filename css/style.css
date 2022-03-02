@@ -2,6 +2,9 @@
     display: none;
 }
 
+body {
+    background-color: #F2F2F2;
+}
 div#StartPage {
     width: 80%;
     margin: 0 auto;
@@ -10,12 +13,13 @@ div#StartPage {
     height: 200px;
     padding-top: 120px;
     position: relative;
-    margin-bottom: 100px;
+    margin-bottom: 200px;
     display: flex;
     justify-content: center;
     gap: 0 10%;
 }
 button#FullScreen,
+button#FreshImages,
 #StartPage label {
     display: inline-block;
     font-size: 25px;
@@ -28,18 +32,22 @@ button#FullScreen,
     outline: none;
     border-radius: 20px;
     cursor: pointer;
-    box-shadow: 8px 8px 22px -5px #444;
+    box-shadow: 8px 8px 22px -5px #BFBFBF;
 }
 button#FullScreen:hover,
+button#FreshImages:hover,
 #StartPage label:hover {
     opacity: .9;
 }
 button#FullScreen {
-    background-color: #b9bd45;
+    background-color: #404040;
+}
+button#FreshImages {
+    background-color: #D9BAC2;
 }
 #StartPage label {
     padding-top: 35px;
-    background-color: #D98E32;
+    background-color: #8C797E;
 }
 input#ImageSelectForm {
     display: none;
@@ -76,7 +84,5 @@ ul#ImageList li:hover {
     width: 100%;
     height: 100vh;
     cursor: pointer;
-    opacity: 0;
     background-repeat: no-repeat;
-    background-size: contain;
 }

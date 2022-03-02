@@ -15,6 +15,7 @@
     <div id="app">
         <div id="StartPage" v-if="!StartFlag">
             <div id="StartStage">
+                <button id="FreshImages" @click="FreshImages">Fresh Images</button>
                 <label>Select Images<input id="ImageSelectForm" type="file" @change="onImageUploaded" multiple></label>
                 <button id="FullScreen" @click="SetFullScreen">Click To Start</button>
             </div>

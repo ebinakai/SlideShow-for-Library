@@ -5,31 +5,32 @@
         el: '#app',
         data: {
             ImageNumber: 0,
-            CurrentImageNumber: 1,
+            CurrentImageNumber: 0,
             IntervalId: 0,
             StartFlag: false,
-            Images: []
+            Images: [],
+            Speed: 10000
         },
         mounted: function() {
-            this.Images = JSON.parse(localStorage.getItem('SavedImages'))
-            console.log(this.Images[0].name)
-            this.SetList(this.ImageNumber)
+            this.SetList()
         },
         methods: {
             $: function (tagId){
                 return document.getElementById(tagId);
             },
-            SetList: function(n) {
+            SetList: function() {
+                this.Images = JSON.parse(localStorage.getItem('SavedImages'))
+                this.ImageNumber = this.Images.length
                 const ImageList = this.$('ImageList')
                 while(ImageList.firstChild){
                     ImageList.removeChild(ImageList.firstChild)
                 }
                 for (let i=0; i < this.Images.length; i++){
                     const liElement = document.createElement('li')
-                    const id = i+1
+                    const id = i
                     liElement.style.background = `url(./images/${this.Images[i].name})`
                     liElement.style.backgroundSize = 'cover'
-                    liElement.addEventListener('click', (event) => {
+                    liElement.addEventListener('click', () => {
                         this.CurrentImageNumber = id
                         this.SetFullScreen()
                     })
@@ -41,15 +42,27 @@
                 document.body.requestFullscreen()
             },
             ReleaseFullScreen: function() {
-                clearInterval(this.IntervalId);
+                this.$('MainPage').style.background = "#F2F2F2"
                 this.StartFlag = false
-                this.SetList(this.ImageNumber)
+                clearInterval(this.IntervalId);
+                setTimeout(this.SetList,1)
             },
             ChangePicture: function() {
                 const MainPage =  this.$('MainPage')
-                MainPage.style.backgroundImage = `url(./images/img${this.CurrentImageNumber}.jpg)`
+                const i = this.CurrentImageNumber
+                MainPage.style.backgroundImage = `url(./images/${this.Images[i].name})`
+                MainPage.style.backgroundSize = 'cover'
+
+                MainPage.animate([
+                    {opacity: 0},
+                    {opacity: 1},
+                    {opacity: 1},
+                    {opacity: 1},
+                    {opacity: 1},
+                    {opacity: 1},
+                    {opacity: 0}
+                ],this.Speed+10)
                 
-                MainPage.style.opacity = 1
                 console.log(this.CurrentImageNumber, this.ImageNumber)
                 if (this.CurrentImageNumber == this.ImageNumber) {
                     this.CurrentImageNumber = 1
@@ -65,19 +78,25 @@
                     SaveImageList.push({"name":this.Images[i].name})
                 }
                 localStorage.setItem('SavedImages', JSON.stringify(SaveImageList))
+                this.SetList()
+            },
+            FreshImages: function(){
+                localStorage.setItem('SavedImages', JSON.stringify([]))
+                this.SetList()
             }
         },
         watch: {
-            ImageNumber: function() {
-                this.SetList(this.ImageNumber)
+            Images: function() {
+                this.ImageNumber = this.Images.length
             }
         }
     });
-    document.onfullscreenchange = function ( event ) {
+    document.onfullscreenchange = function() {
         if(document.fullscreenElement === null) {
             vm.ReleaseFullScreen()
         } else {
-            vm.IntervalId = setInterval(vm.ChangePicture.bind(vm), 800);
+            vm.ChangePicture()
+            vm.IntervalId = setInterval(vm.ChangePicture.bind(vm), vm.Speed);
         }
     }
 })();
