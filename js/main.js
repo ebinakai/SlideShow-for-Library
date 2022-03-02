@@ -17,7 +17,7 @@ document.onfullscreenchange = function( event ) {
     } else {
         MainPage.style.backgroundSize = 'cover'
         ChangePicture()
-        IntervalId = setInterval(ChangePicture, 1800);
+        IntervalId = setInterval(ChangePicture, 10800);
     }
 }
 ImageNumberCounter.addEventListener('change', (event) => {
@@ -66,7 +66,7 @@ function ChangePicture() {
         {opacity: 1},
         {opacity: 1},
         {opacity: 0}
-    ],1800)
+    ],10800)
     console.log(CurrentImageNumber, ImageNumber)
     if (CurrentImageNumber == ImageNumber) {
         CurrentImageNumber = 1

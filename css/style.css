@@ -8,52 +8,44 @@ div#StartPage {
 }
 #StartStage {
     height: 200px;
-    opacity: .8;
-    border-radius: 20px;
+    padding-top: 120px;
     position: relative;
-    margin-top: 30px;
-    padding: 70px;
+    margin-bottom: 100px;
     display: flex;
     justify-content: center;
     gap: 0 10%;
 }
-button#FullScreen {
+button#FullScreen,
+#StartPage label {
+    display: inline-block;
     font-size: 25px;
     font-weight: bold;
+    text-align: center;
     width: 300px;
     height: 100px;
-    background-color: #A2A638;
     color: white;
     border: none;
+    outline: none;
     border-radius: 20px;
     cursor: pointer;
     box-shadow: 8px 8px 22px -5px #444;
-    margin-top: 30px;
 }
-button#FullScreen:hover {
+button#FullScreen:hover,
+#StartPage label:hover {
     opacity: .9;
 }
-input#ImageNumber {
-    width: 180px;
-    height: 80px;
-    font-size: 54px;
-    text-align: center;
-    border-radius: 20px;
+button#FullScreen {
+    background-color: #b9bd45;
+}
+#StartPage label {
+    padding-top: 35px;
     background-color: #D98E32;
-    color: white;
-    border: 3px solid #D9D2C5;
-    outline: none;
-    padding: 0 15px;
-    margin-left: 50px;
 }
-#StartStage div p {
-    font-size: 24px;
-    font-weight: bold;
-    color: #8C4B26;
-    margin-bottom: 25px;
+input#ImageSelectForm {
+    display: none;
 }
-input#ImageNumber::-webkit-outer-spin-button,
-input#ImageNumber::-webkit-inner-spin-button {
+input#ImageSelectForm::-webkit-outer-spin-button,
+input#ImageSelectForm::-webkit-inner-spin-button {
     -webkit-appearance: none; 
 }
 
@@ -85,4 +77,6 @@ ul#ImageList li:hover {
     height: 100vh;
     cursor: pointer;
     opacity: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
 }
