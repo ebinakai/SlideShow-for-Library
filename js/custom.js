@@ -6,13 +6,20 @@
         data: {
             ImageNumber: 0,
             CurrentImageNumber: 0,
+            SlideSeconds: 0,
+            ViewSlideSeconds: 0,
             IntervalId: 0,
             StartFlag: false,
-            Images: [],
-            Speed: 10000
+            SettingFlag: false,
+            Images: []
         },
         mounted: function() {
             this.SetList()
+            this.SlideSeconds = localStorage.getItem('SlideSeconds')
+            if(this.SlideSeconds == null){
+                this.SlideSeconds = 5000
+            }
+            this.ViewSlideSeconds = this.SlideSeconds
         },
         methods: {
             $: function (tagId){
@@ -42,9 +49,11 @@
                 document.body.requestFullscreen()
             },
             ReleaseFullScreen: function() {
-                this.$('MainPage').style.background = "#F2F2F2"
+                if(document.fullscreenElement !== null) {
+                    document.exitFullscreen()
+                }
                 this.StartFlag = false
-                clearInterval(this.IntervalId);
+                clearInterval(this.IntervalId)
                 setTimeout(this.SetList,1)
             },
             ChangePicture: function() {
@@ -53,41 +62,64 @@
                 MainPage.style.backgroundImage = `url(./images/${this.Images[i].name})`
                 MainPage.style.backgroundSize = 'cover'
 
-                MainPage.animate([
-                    {opacity: 0},
-                    {opacity: 1},
-                    {opacity: 1},
-                    {opacity: 1},
-                    {opacity: 1},
-                    {opacity: 1},
-                    {opacity: 0}
-                ],this.Speed+10)
-                
                 console.log(this.CurrentImageNumber, this.ImageNumber)
                 if (this.CurrentImageNumber == this.ImageNumber) {
-                    this.CurrentImageNumber = 1
+                    this.CurrentImageNumber = 0
                 } else {
                     this.CurrentImageNumber ++
                 }
+
+                this.$('SlideBar').animate([
+                    {width: '0'},
+                    {width: '100%'}
+                ], this.SlideSeconds)
+                
+                frames = [{opacity: 0}]
+                for (let i=0;i<this.SlideSeconds/1000-2;i++){
+                    frames.push({opacity: 1})
+                }
+                frames.push({opacity: 0})
+
+
+                MainPage.animate(frames , parseInt(this.SlideSeconds)+parseInt(10))
             },
             onImageUploaded: function(e) {
                 this.Images = e.target.files
                 this.ImageNumber = this.Images.length
-                let SaveImageList = []
+                let SaveImageList = (JSON.parse(localStorage.getItem('SavedImages')) || [])
+                
                 for (let i=0; i < this.ImageNumber; i++){
                     SaveImageList.push({"name":this.Images[i].name})
                 }
                 localStorage.setItem('SavedImages', JSON.stringify(SaveImageList))
                 this.SetList()
             },
+            StartSlide: function() {
+                this.CurrentImageNumber = 0
+                this.SetFullScreen()
+            },
             FreshImages: function(){
                 localStorage.setItem('SavedImages', JSON.stringify([]))
                 this.SetList()
+            },
+            SettingShow: function(){
+                this.SettingFlag = true
+            },
+            SettingClose: function(){
+                this.SettingFlag = false
+                this.SlideSeconds = this.ViewSlideSeconds
             }
         },
         watch: {
             Images: function() {
-                this.ImageNumber = this.Images.length
+                this.ImageNumber = this.Images.length - 1
+            },
+            SlideSeconds: function() {
+                if(this.SlideSeconds < 5000) {
+                    this.SlideSeconds = 5000
+                    this.ViewSlideSeconds = this.SlideSeconds
+                }
+                localStorage.setItem('SlideSeconds', this.SlideSeconds)
             }
         }
     });
@@ -96,7 +128,7 @@
             vm.ReleaseFullScreen()
         } else {
             vm.ChangePicture()
-            vm.IntervalId = setInterval(vm.ChangePicture.bind(vm), vm.Speed);
+            vm.IntervalId = setInterval(vm.ChangePicture.bind(vm), vm.SlideSeconds);
         }
     }
 })();
