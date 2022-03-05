@@ -24,6 +24,7 @@
                 <div id="Carousel"></div>
                 <h2>GALLERY</h2>
                 <ul id="ImageList">
+                	<li style="border:0;list-style-type:none;">&nbsp;</li>
                 </ul>
             </div>
         </div>
@@ -33,10 +34,10 @@
                 <li>
                     <label for="SlideSeconds">
                         Time to display on the screen<br>
-                        ( min: 5000 )
+                        ( min: 5s )
                     </label>
                     <input id="SlideSeconds" type="number" v-model="ViewSlideSeconds" @keyup.enter="SettingClose">
-                    <span>[ms]</span>
+                    <span>[s]</span>
                 </li>
                 <!-- <li>
                     <button>Delete Image From Gallery</button>
