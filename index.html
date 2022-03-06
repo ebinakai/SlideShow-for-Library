@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/style.css">
     <link rel="icon" href="./favicon.ico">
+    <!-- vuejsをローカルに保存して使用します -->
     <script src="./js/vue.js" defer></script>
     <script src="./js/main.js" defer></script>
 </head>
@@ -36,12 +37,8 @@
                         Time to display on the screen<br>
                         ( min: {{MinSeconds}}s )
                     </label>
-                    <input id="SlideSeconds" type="number" v-model="ViewSlideSeconds" @keyup.enter="SettingClose">
-                    <span>[s]</span>
+                    <input id="SlideSeconds" type="number" v-model="ViewSlideSeconds" @keyup.enter="SettingClose"> [s]
                 </li>
-                <!-- <li>
-                    <button>Delete Image From Gallery</button>
-                </li> -->
             </ul>
         </section>
         <div v-if="StartFlag">
@@ -50,5 +47,6 @@
             </div>
         </div>
     </main>
+    <footer><p> © 2022 National Institute of Technology Sendai College, Hirose Campus Library. All rights reserved.</p></footer>
 </body>
 </html>
