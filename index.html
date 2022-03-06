@@ -7,9 +7,9 @@
     <title>Photo Slide</title>
     <link rel="stylesheet" href="./css/reset.css">
     <link rel="stylesheet" href="./css/style.css">
-    <link rel="icon" href="favicon.ico">
+    <link rel="icon" href="./favicon.ico">
     <script src="./js/vue.js" defer></script>
-    <script src="./js/custom.js" defer></script>
+    <script src="./js/main.js" defer></script>
 </head>
 <body>
     <main id="app">
@@ -34,7 +34,7 @@
                 <li>
                     <label for="SlideSeconds">
                         Time to display on the screen<br>
-                        ( min: 5s )
+                        ( min: {{MinSeconds}}s )
                     </label>
                     <input id="SlideSeconds" type="number" v-model="ViewSlideSeconds" @keyup.enter="SettingClose">
                     <span>[s]</span>
