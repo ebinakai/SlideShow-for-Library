@@ -16,12 +16,14 @@
         <section id="StartPage">
             <div v-if="!StartFlag">
                 <nav id="StartStage">
-                    <button id="FreshImages" @click="FreshImages">Fresh Images</button>
-                    <label for="ImageAddForm"><span>Add Images</span></label>
-                    <input id="ImageAddForm" type="file" @change="onImageUploaded" multiple>
-                    <button id="FullScreen" @click="StartSlide">Show Slide</button>
-                    <button id="Setting" @click="SettingShow">Setting</button>
+                    <ul>
+                        <li id="FreshImages" @click="FreshImages">Fresh Images</li>
+                        <li id="ImageAddButton"><label for="ImageAddForm">Add Images</label></li>
+                        <li id="FullScreen" @click="StartSlide">Show Slide</li>
+                        <li id="Setting" @click="SettingShow">Setting</li>
+                    </ul>
                 </nav>
+                <input id="ImageAddForm" type="file" @change="onImageUploaded" multiple>
                 <h2>GALLERY</h2>
                 <ul id="ImageList" onContextmenu="return false;"></ul>
             </div>
