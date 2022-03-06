@@ -4,20 +4,21 @@
 
 body {
     background-color: #F2F2F2;
+    min-width: 640px;
 }
-div#StartPage {
+#StartPage {
     width: 80%;
     margin: 0 auto;
     text-align: center;
 }
 #StartStage {
-    height: 200px;
     padding-top: 120px;
     position: relative;
-    margin-bottom: 200px;
+    margin-bottom: 100px;
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 0 10%;
+    gap: 0 5%;
 }
 #StartStage * {
     display: inline-block;
@@ -31,6 +32,8 @@ div#StartPage {
     outline: none;
     border-radius: 20px;
     cursor: pointer;
+    padding: 0 15px;
+    margin-bottom: 50px;
     box-shadow: 8px 8px 22px -5px #BFBFBF;
     transition: .3s;
 }
@@ -38,6 +41,20 @@ div#StartPage {
 #ImageList li:hover {
     opacity: .9;
     transform: scale(1.05);
+}
+#StartPage label {
+    display:table;
+    padding: 0;
+    background-color: #8C797E;
+}
+#StartPage label span {
+    display:table-cell;
+    padding: 0 15px;
+    vertical-align:middle;
+}
+#StartPage label span:hover {
+    opacity: 1;
+    transform: scale(1);
 }
 button#FullScreen {
     background-color: #404040;
@@ -47,10 +64,6 @@ button#FreshImages {
 }
 button#Setting {
     background-color: #BFB3A4;
-}
-#StartPage label {
-    padding-top: 35px;
-    background-color: #8C797E;
 }
 input#ImageAddForm {
     display: none;
@@ -74,12 +87,12 @@ ul#ImageList {
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
-    gap: 60px 2%;
     margin-bottom: 100px;
+    gap: 60px 2%;
 }
 ul#ImageList li {
     position: relative;
-    width: 32%;
+    width: 23%;
     aspect-ratio: 16 / 9;
     list-style: none;
     background-repeat: no-repeat;
@@ -156,4 +169,32 @@ ul#ImageList li {
 #Modal ul li span {
     font-size: 24px;
     font-weight: bold;
+}
+
+@media screen and (max-width:1920px) {
+    ul#ImageList {
+        gap: 30px 2%;
+    }
+    ul#ImageList li {
+        width: 32%;
+    }
+    #StartStage {
+        gap: 60px 21%;
+    }
+}
+@media screen and (max-width:1200px) {
+    ul#ImageList {
+        gap: 40px 4%;
+    }
+    ul#ImageList li {
+        width: 48%;
+    }
+}
+@media screen and (max-width:840px) {
+    ul#ImageList {
+        gap: 40px 0;
+    }
+    ul#ImageList li {
+        width: 100%;
+    }
 }

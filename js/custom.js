@@ -15,37 +15,58 @@
             Frames: [{opacity: 0},{opacity: 0}]
         },
         mounted: function() {
-            this.SetList()
             this.SlideSeconds = localStorage.getItem('SlideSeconds')
+            this.SetList()
             if(this.SlideSeconds == null){
                 this.SlideSeconds = 5
             }
+            this.ViewSlideSeconds = this.SlideSeconds
+
+            // GALLERYの変更を保存
+            const observer = new MutationObserver(function() {
+                let SaveImageList = []
+                for (let ele of document.querySelectorAll('#ImageList li')){
+                    SaveImageList.push({"name":ele.id})
+                }
+                localStorage.setItem('SavedImages', JSON.stringify(SaveImageList))
+            })
+            observer.observe(this.$('ImageList'), {childList: true})
         },
         methods: {
             $: function (tagId){
                 return document.getElementById(tagId);
             },
             SetList: function() {
+                // 情報を取得
                 this.Images = JSON.parse(localStorage.getItem('SavedImages'))
                 this.ImageNumber = this.Images.length
                 const ImageList = this.$('ImageList')
+
+                // GALLERYをリセット
                 while(ImageList.firstChild){
                     ImageList.removeChild(ImageList.firstChild)
                 }
-                for (let i=0; i < this.Images.length; i++){
+                this.Images.forEach((Image, index) => {
                     // GALLERYのliタグを作成
                     const liElement = document.createElement('li')
-                    const id = i
+                    const id = index
                     liElement.draggable = true
-                    liElement.id = this.Images[i].name
-                    liElement.style.background = `url(./images/${this.Images[i].name})`
+                    liElement.id = Image.name
+                    liElement.style.background = `url(./images/${Image.name})`
                     liElement.style.backgroundSize = 'cover'
                     liElement.style.backgroundPosition = "center center"
                     liElement.addEventListener('click', () => {
                         this.CurrentImageNumber = id
                         this.SetFullScreen()
                     })
-
+                    
+                    // 右クリックイベント追加
+                    liElement.addEventListener('contextmenu',function(e){
+                        if(window.confirm("delete?")){
+                            this.remove()
+                        }
+                    })
+                    
                     //ドラッグアンドドロップ制御
                     liElement.ondragstart = function(e){
                         e.dataTransfer.setData('text/plain',e.target.id)
@@ -55,11 +76,11 @@
 
                         let rect = this.getBoundingClientRect();
 		                if (e.clientX-rect.left < (this.clientWidth / 2)) {
-                            this.style.borderLeft = '45px solid #D9BAC2'
+                            this.style.borderLeft = '100px solid #D9BAC2'
                             this.style.borderRight = ''
                         } else {
                             this.style.borderLeft = ''
-                            this.style.borderRight = '45px solid #D9BAC2'
+                            this.style.borderRight = '100px solid #D9BAC2'
                         }
                     }
                     liElement.ondragleave = function (){
@@ -79,16 +100,11 @@
                             this.parentNode.insertBefore(elm_drag, this.nextSibling)
                             this.style.borderRight = ''
                         }
-                        let SaveImageList = []
-                        for (let ele of document.querySelectorAll('#ImageList li')){
-                            SaveImageList.push({"name":ele.id})
-                        }
-                        localStorage.setItem('SavedImages', JSON.stringify(SaveImageList))
                     }
 
                     // タグの追加
                     ImageList.appendChild(liElement)
-                }
+                })
             },
             SetFullScreen: function() {
                 this.StartFlag = true
@@ -108,7 +124,6 @@
                 MainPage.style.backgroundImage = `url(./images/${this.Images[i].name})`
                 MainPage.style.backgroundSize = 'cover'
 
-                console.log(this.CurrentImageNumber, this.ImageNumber)
                 if (this.CurrentImageNumber == this.ImageNumber) {
                     this.CurrentImageNumber = 0
                 } else {
@@ -128,10 +143,14 @@
                 this.Images = e.target.files
                 this.ImageNumber = this.Images.length
                 let SaveImageList = (JSON.parse(localStorage.getItem('SavedImages')) || [])
-                
+
                 for (let Image of this.Images){
                     SaveImageList.push({"name":Image.name})
                 }
+
+                let map = new Map(SaveImageList.map(o => [o.name, o]))
+                SaveImageList = Array.from(map.values())
+
                 localStorage.setItem('SavedImages', JSON.stringify(SaveImageList))
                 this.SetList()
             },
@@ -140,7 +159,7 @@
                 this.SetFullScreen()
             },
             SetFrames: function() {
-                for (let i=0;i<this.SlideSeconds-2;i++){
+                for (let i=0; i<this.SlideSeconds-2; i++){
                     this.Frames.splice(1,0,{opacity: 1})
                 }
             },
@@ -149,7 +168,6 @@
                 this.SetList()
             },
             SettingShow: function(){
-            this.ViewSlideSeconds = this.SlideSeconds
             this.SettingFlag = true
             },
             SettingClose: function(){

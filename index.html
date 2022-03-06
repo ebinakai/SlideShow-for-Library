@@ -12,23 +12,21 @@
     <script src="./js/custom.js" defer></script>
 </head>
 <body>
-    <div id="app">
-        <div id="StartPage">
+    <main id="app">
+        <section id="StartPage">
             <div v-if="!StartFlag">
-                <div id="StartStage">
+                <nav id="StartStage">
                     <button id="FreshImages" @click="FreshImages">Fresh Images</button>
-                    <label>Add Images<input id="ImageAddForm" type="file" @change="onImageUploaded" multiple></label>
+                    <label for="ImageAddForm"><span>Add Images</span></label>
+                    <input id="ImageAddForm" type="file" @change="onImageUploaded" multiple>
                     <button id="FullScreen" @click="StartSlide">Show Slide</button>
                     <button id="Setting" @click="SettingShow">Setting</button>
-                </div>
-                <div id="Carousel"></div>
+                </nav>
                 <h2>GALLERY</h2>
-                <ul id="ImageList">
-                	<li style="border:0;list-style-type:none;">&nbsp;</li>
-                </ul>
+                <ul id="ImageList" onContextmenu="return false;"></ul>
             </div>
-        </div>
-        <div id="Modal" v-if="SettingFlag">
+        </section>
+        <section id="Modal" v-if="SettingFlag">
             <div @click="SettingClose"></div>
             <ul @click="SettingShow">
                 <li>
@@ -43,12 +41,12 @@
                     <button>Delete Image From Gallery</button>
                 </li> -->
             </ul>
-        </div>
+        </section>
         <div v-if="StartFlag">
             <div id="MainPage" @click="ReleaseFullScreen">
                 <div id="SlideBar"></div>
             </div>
         </div>
-    </div>
+    </main>
 </body>
 </html>
