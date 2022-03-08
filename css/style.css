@@ -5,6 +5,9 @@
 body {
     background-color: #F2F2F2;
 }
+main {
+    min-height: calc(100vh - 76px);
+}
 #StartPage {
     width: 80%;
     margin: 0 auto;

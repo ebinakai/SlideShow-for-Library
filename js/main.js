@@ -10,10 +10,10 @@
             ViewSlideSeconds: 0,
             SlideSeconds: 0,
             IntervalId: 0,
-            MinSeconds: 3, // <-(MinSeconds >= 3)
+            MinSeconds: 5,
             StartFlag: false,
             SettingFlag: false,
-            Frames: [{opacity: 0},{opacity: 0}]
+            Frames: [{opacity: 0},{opacity: 1},{opacity: 0}]
         },
         mounted: function() {
             this.SlideSeconds = localStorage.getItem('SlideSeconds')
@@ -160,7 +160,7 @@
                 this.SetFullScreen()
             },
             SetFrames: function() {
-                for (let i=0; i<this.SlideSeconds-2; i++){
+                for (let i=0; i<this.SlideSeconds-3; i++){
                     this.Frames.splice(1,0,{opacity: 1})
                 }
             },
