@@ -39,7 +39,7 @@
             },
             SetList: function() {
                 // 情報を取得
-                this.Images = JSON.parse(localStorage.getItem('SavedImages'))
+                this.Images = JSON.parse(localStorage.getItem('SavedImages')) || [];
                 this.ImageNumber = this.Images.length
                 const ImageList = this.$('ImageList')
 
@@ -141,15 +141,16 @@
                     parseInt(this.SlideSeconds)*1000 + parseInt(10))
             },
             onImageUploaded: function(e) {
-                this.Images = e.target.files
-                this.ImageNumber = this.Images.length
-                let SaveImageList = (JSON.parse(localStorage.getItem('SavedImages')) || [])
+                // this.Images = e.target.files
+                // let SaveImageList = (JSON.parse(localStorage.getItem('SavedImages')) || [])
+                let SaveImageList = [{name: '2020.jpg'}, {name: '2021.jpg'}, {name: '2022.jpg'}, {name: '2023.png'}];
 
-                for (let Image of this.Images){
-                    SaveImageList.push({"name":Image.name})
-                }
+                // for (let Image of this.Images){
+                //     SaveImageList.push({"name":Image.name})
+                // }
 
                 let map = new Map(SaveImageList.map(o => [o.name, o]))
+                console.debug(map);
                 SaveImageList = Array.from(map.values())
 
                 localStorage.setItem('SavedImages', JSON.stringify(SaveImageList))

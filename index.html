@@ -19,12 +19,13 @@
                 <nav id="StartStage">
                     <ul>
                         <li id="FreshImages" @click="FreshImages">Fresh Images</li>
-                        <li id="ImageAddButton"><label for="ImageAddForm">Add Images</label></li>
+                        <!-- <li id="ImageAddButton"><label for="ImageAddForm">Add Images</label></li> -->
+                        <li id="ImageAddButton" @click="onImageUploaded">Add Images</li>
                         <li id="FullScreen" @click="StartSlide">Show Slide</li>
                         <li id="Setting" @click="SettingShow">Setting</li>
                     </ul>
                 </nav>
-                <input id="ImageAddForm" type="file" @change="onImageUploaded" multiple>
+                <!-- <input id="ImageAddForm" type="file" @change="onImageUploaded" multiple> -->
                 <h2>GALLERY</h2>
                 <ul id="ImageList" onContextmenu="return false;"></ul>
             </div>
